@@ -1,0 +1,6 @@
+# Placeholder - Replace with your actual Streamer.bot action export
+# To create this file:
+# 1. Create your actions in Streamer.bot
+# 2. Right-click the action group
+# 3. Select "Export" 
+# 4. Copy the export string and paste it here

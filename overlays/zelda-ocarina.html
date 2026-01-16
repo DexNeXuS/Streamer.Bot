@@ -1,0 +1,1664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zelda Ocarina Widget – DexNeXuS</title>
+    <link href="https://fonts.googleapis.com/css?family=Cinzel+Decorative:400,700|Nunito:600" rel="stylesheet">
+    <style>
+@import url('https://fonts.googleapis.com/css?family=Cinzel+Decorative:400,700|Nunito:600');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    overflow: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
+
+#TerbbleCleff {
+    position: absolute;
+    top: 55%;
+    left: 19%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    animation: trebleClefBreath 4s ease-in-out infinite;
+    filter: 
+        brightness(1.15)
+        drop-shadow(0 0 20px rgba(255, 50, 30, 0.5))
+        drop-shadow(0 0 35px rgba(255, 60, 40, 0.4))
+        drop-shadow(0 0 55px rgba(255, 70, 50, 0.3))
+        drop-shadow(0 0 75px rgba(255, 80, 60, 0.25))
+        drop-shadow(0 0 95px rgba(255, 90, 70, 0.2))
+        drop-shadow(0 0 115px rgba(255, 100, 80, 0.15));
+}
+
+@keyframes trebleClefBreath {
+    0%, 100% {
+        filter: 
+            brightness(1.12)
+            drop-shadow(0 0 18px rgba(255, 50, 30, 0.4))
+            drop-shadow(0 0 32px rgba(255, 60, 40, 0.3))
+            drop-shadow(0 0 50px rgba(255, 70, 50, 0.25))
+            drop-shadow(0 0 70px rgba(255, 80, 60, 0.2))
+            drop-shadow(0 0 90px rgba(255, 90, 70, 0.15))
+            drop-shadow(0 0 110px rgba(255, 100, 80, 0.12));
+    }
+    50% {
+        filter: 
+            brightness(1.2)
+            drop-shadow(0 0 25px rgba(255, 50, 30, 0.65))
+            drop-shadow(0 0 42px rgba(255, 60, 40, 0.55))
+            drop-shadow(0 0 62px rgba(255, 70, 50, 0.45))
+            drop-shadow(0 0 82px rgba(255, 80, 60, 0.35))
+            drop-shadow(0 0 102px rgba(255, 90, 70, 0.28))
+            drop-shadow(0 0 122px rgba(255, 100, 80, 0.22));
+    }
+}
+
+#songInfo {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 35px;
+    font-weight: bold;
+    text-align: center;
+    display: none;
+    z-index: 4;
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 1);
+}
+
+#songDetails {
+    display: block;
+}
+
+#username {
+    color: rgba(58,175,208,255);
+}
+
+#songName {
+    display: block;
+    color: red;
+    font-weight: bold;
+}
+
+.staffContainer {
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 75%;
+    height: 75%;
+    filter: drop-shadow(0 0 15px rgba(255, 100, 50, 0.6)) drop-shadow(0 0 30px rgba(255, 150, 50, 0.4));
+}
+
+#staffLines {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.line {
+    width: calc(100% - 10px);
+    height: 5px;
+    margin: 0 auto 30px auto;
+    background: linear-gradient(90deg, 
+        rgba(255, 100, 50, 0.4) 0%, 
+        rgba(255, 150, 50, 1) 50%, 
+        rgba(255, 100, 50, 0.4) 100%);
+    border-radius: 3px;
+    box-shadow: 
+        0 0 8px rgba(255, 100, 50, 0.4),
+        0 0 15px rgba(255, 150, 50, 0.3),
+        0 0 25px rgba(255, 100, 50, 0.25),
+        0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#imageContainer {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    position: absolute;
+    right: 0;
+    transition: transform 0.5s ease;
+    z-index: 2;
+}
+
+.button {
+    width: 55px;
+    height: 55px;
+    object-fit: cover;
+    margin-left: 15px;
+    border-radius: 50%;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+.additionalContentContainer {
+    position: absolute;
+    bottom: 35%;
+    left: 15%;
+    width: auto;
+    height: auto;
+    display: none;
+}
+
+.widget {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    overflow: hidden;
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+    background: linear-gradient(135deg, rgba(5, 5, 8, 0.82) 0%, rgba(2, 2, 5, 0.82) 100%);
+    background-size: cover;
+    background-position: center;
+    width: 1200px;
+    height: 300px;
+    border-radius: 20px;
+    border: 3px solid rgba(0, 0, 0, 0.95);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.6),
+        inset 0 2px 10px rgba(255, 255, 255, 0.1),
+        0 0 20px rgba(200, 100, 50, 0.3);
+    z-index: 2;
+}
+
+.widget.fade-in {
+    opacity: 1;
+    visibility: visible;
+}
+
+.widget.song-playing {
+    animation: songGlow 3s ease-in-out infinite;
+}
+
+.widget.song-fading {
+    animation: songGlowFadeOut 1.5s ease-out forwards;
+}
+
+@keyframes songGlow {
+    0%, 100% {
+        box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.6),
+            inset 0 2px 10px rgba(255, 255, 255, 0.1),
+            0 0 20px rgba(200, 100, 50, 0.3),
+            0 0 10px var(--song-glow-color, rgba(100, 200, 255, 0.3)),
+            0 0 18px var(--song-glow-color, rgba(100, 200, 255, 0.2));
+    }
+    50% {
+        box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.6),
+            inset 0 2px 10px rgba(255, 255, 255, 0.1),
+            0 0 20px rgba(200, 100, 50, 0.3),
+            0 0 20px var(--song-glow-color, rgba(100, 200, 255, 0.6)),
+            0 0 35px var(--song-glow-color, rgba(100, 200, 255, 0.5)),
+            0 0 50px var(--song-glow-color, rgba(100, 200, 255, 0.4));
+    }
+}
+
+@keyframes songGlowFadeOut {
+    0% {
+        box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.6),
+            inset 0 2px 10px rgba(255, 255, 255, 0.1),
+            0 0 20px rgba(200, 100, 50, 0.3),
+            0 0 25px var(--song-glow-color, rgba(100, 200, 255, 0.5)),
+            0 0 40px var(--song-glow-color, rgba(100, 200, 255, 0.4));
+    }
+    100% {
+        box-shadow: 
+            0 8px 32px rgba(0, 0, 0, 0.6),
+            inset 0 2px 10px rgba(255, 255, 255, 0.1),
+            0 0 20px rgba(200, 100, 50, 0.3);
+    }
+}
+
+#linkImage {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
+
+#defaultText {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    z-index: 4;
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 1), 
+                2px 2px 4px rgba(0, 0, 0, 1),
+                0 0 10px rgba(0, 0, 0, 0.9),
+                0 0 15px rgba(0, 0, 0, 0.7);
+}
+
+.playText {
+    color: white;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 35px;
+    font-weight: bold;
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 1), 
+                2px 2px 4px rgba(0, 0, 0, 1),
+                0 0 10px rgba(0, 0, 0, 0.9),
+                0 0 15px rgba(0, 0, 0, 0.7);
+}
+
+.commands {
+    color: red;
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 30px;
+    font-weight: bold;
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 1), 
+                2px 2px 4px rgba(0, 0, 0, 1),
+                0 0 10px rgba(0, 0, 0, 0.9),
+                0 0 15px rgba(0, 0, 0, 0.7);
+}
+
+#statusContainer {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 24px;
+    text-align: center;
+    padding: 12px 24px;
+    border-radius: 8px;
+    background-color: #D12025;
+    color: white;
+    box-shadow: 
+        0 4px 16px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(209, 32, 37, 0.5);
+    transition: opacity 0.5s ease, background-color 0.3s ease;
+    pointer-events: none;
+    min-width: 200px;
+    display: none;
+}
+
+#statusContainer.connected {
+    background-color: #2FB774;
+    box-shadow: 
+        0 4px 16px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(47, 183, 116, 0.5);
+}
+
+#statusContainer.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+#messageLog {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: 1200px;
+    max-height: 700px;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.95);
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+    font-size: 16px;
+    line-height: 1.6;
+    padding: 20px;
+    border-radius: 8px;
+    border: 3px solid #00ff00;
+    z-index: 1000;
+    display: none;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 20px rgba(0, 255, 0, 0.3);
+}
+
+#messageLog.visible {
+    display: block;
+}
+
+#messageLog.hidden {
+    display: none !important;
+}
+
+#messageLog .message {
+    margin: 6px 0;
+    padding: 8px;
+    border-left: 4px solid #00ff00;
+    padding-left: 12px;
+    word-break: break-all;
+    font-size: 16px;
+}
+
+#messageLog .message.error {
+    border-left-color: #ff0000;
+    color: #ff6b6b;
+}
+
+#messageLog .message.success {
+    border-left-color: #00ff00;
+    color: #00ff00;
+}
+
+#messageLog .message.warning {
+    border-left-color: #ffaa00;
+    color: #ffaa00;
+}
+
+#messageLog .message.info {
+    border-left-color: #00aaff;
+    color: #00aaff;
+}
+
+#messageLog .timestamp {
+    color: #888;
+    font-size: 14px;
+    margin-right: 12px;
+    font-weight: bold;
+}
+
+#songListContainer {
+    position: fixed;
+    visibility: hidden;
+    opacity: 0;
+    z-index: 10000;
+    background: linear-gradient(135deg, rgba(5, 5, 8, 0.95) 0%, rgba(2, 2, 5, 0.95) 100%);
+    border-radius: 20px;
+    border: 3px solid rgba(0, 0, 0, 0.95);
+    box-shadow: 
+        0 8px 32px rgba(0, 0, 0, 0.8),
+        inset 0 2px 10px rgba(255, 255, 255, 0.1),
+        0 0 30px rgba(200, 100, 50, 0.4);
+    padding: 20px;
+    width: 75%;
+    max-width: 1200px;
+    max-height: calc(60vh + 15px);
+    overflow: hidden;
+    transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out, visibility 0.6s ease-in-out;
+    transform: scale(0.92) translateY(-10px);
+}
+
+#songListContainer.showing {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    visibility: visible;
+}
+
+#songListContainer.hiding {
+    opacity: 0;
+    transform: scale(0.92) translateY(-10px);
+}
+
+#songListContent {
+    color: white;
+}
+
+.songListTitle {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 28px;
+    color: #ffaa00;
+    text-align: center;
+    margin-bottom: 15px;
+    text-shadow: 0 0 10px rgba(255, 170, 0, 0.8);
+}
+
+.songList {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    max-height: calc(55vh + 15px);
+    overflow-y: auto;
+    padding-right: 10px;
+}
+
+.songItem {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 150, 50, 0.3);
+}
+
+.songItem .songName {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 16px;
+    color: rgba(58, 175, 208, 255);
+    font-weight: bold;
+}
+
+.buttonSequence {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.buttonContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.songButton {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 50%;
+    filter: drop-shadow(0 0 5px rgba(255, 220, 50, 0.5));
+}
+
+.buttonLabel {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 11px;
+    color: rgba(255, 200, 100, 0.9);
+    text-transform: capitalize;
+    text-align: center;
+}
+    </style>
+</head>
+<body>
+    <div class="additionalContentContainer" id="linkContainer" style="display: none;">
+        <img id="linkImage" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/27dbbda7-320b-488b-b8cb-6d993296f095/ddexa2l-9e0c7f28-cd09-4309-b57b-201b6d586157.png/v1/fit/w_425,h_661/young_link_holding_the_fairy_ocarina_by_transparentjiggly64_ddexa2l-375w-2x.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NjYxIiwicGF0aCI6IlwvZlwvMjdkYmJkYTctMzIwYi00ODhiLWI4Y2ItNmQ5OTMyOTZmMDk1XC9kZGV4YTJsLTllMGM3ZjI4LWNkMDktNDMwOS1iNTdiLTIwMWI2ZDU4NjE1Ny5wbmciLCJ3aWR0aCI6Ijw9NDI1In1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmltYWdlLm9wZXJhdGlvbnMiXX0.9GJ8gYG6kXgUDBmb9gGWqPIENtOiJETMjg5ap_nHgkI" alt="Link holding ocarina">
+    </div>
+
+    <div class="widget">
+        <div id="defaultText">
+            <div class="playText">Play by typing:</div>
+            <div class="commands">up, down, left, right or a</div>
+        </div>
+        <div id="songInfo">
+            <span id="username"></span> played the <span id="songDetails"></span><span id="songName"></span>
+        </div>
+        <div id="TerbbleCleff">
+            <img src="https://raw.githubusercontent.com/DexNeXuS/Images/main/Zelda_Cleff.PNG" alt="Treble Clef" class="treble_clef" width="225" height="225">
+        </div>
+        <div class="staffContainer">
+            <div id="staffLines">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+            <div id="imageContainer">
+            </div>
+        </div>
+    </div>
+
+    <div id="songListContainer" style="display: none;">
+        <div id="songListContent"></div>
+    </div>
+
+    <div id="statusContainer" style="display: none;">DISCONNECTED</div>
+    <div id="messageLog"></div>
+
+    <script>
+// ============================================
+// CONFIGURATION - Read from URL parameters
+// ============================================
+const urlParams = new URLSearchParams(window.location.search);
+const address = urlParams.get('address') || '127.0.0.1';
+const port = urlParams.get('port') || '8080';
+const password = urlParams.get('password') || '';
+
+// Build WebSocket URL from parameters
+const wsUrl = `ws://${address}:${port}`;
+
+const CONFIG = {
+    WS_ENABLED: true,
+    WS_URL: wsUrl,
+    OVERLAY_ID: 'zelda-ocarina-widget',
+    RECEIVER_ACTION_ID: '', // Can be set via URL param if needed
+    DEBUG_ENABLED: urlParams.get('debug') === 'true',
+    SHOW_LINK: false,
+    SONG_LIST_DURATION: 15,
+    SONG_GLOW_COLORS: {
+        'Zeldas Lullaby': 'rgba(100, 200, 255, 0.8)',
+        'Eponas Song': 'rgba(255, 200, 100, 0.8)',
+        'Sarias Song': 'rgba(100, 255, 150, 0.8)',
+        'Suns Song': 'rgba(255, 255, 100, 0.8)',
+        'Song Of Time': 'rgba(200, 150, 255, 0.8)',
+        'Song Of Storms': 'rgba(100, 150, 255, 0.8)',
+        'Minuet Of Forest': 'rgba(150, 255, 150, 0.8)',
+        'Bolero Of Fire': 'rgba(255, 100, 100, 0.8)',
+        'Serenade Of Water': 'rgba(100, 200, 255, 0.8)',
+        'Requiem Of Spirit': 'rgba(200, 100, 200, 0.8)',
+        'Nocturne Of Shadow': 'rgba(150, 100, 200, 0.8)',
+        'Prelude Of Light': 'rgba(255, 255, 200, 0.8)'
+    },
+    SONG_GLOW_INTENSITY: 30,
+    SOUNDS: {
+        NOTES: {
+            'left': "http://noproblo.dayjo.org/ZeldaSounds/OOT/OOT_Notes_Ocarina_B_short.wav",
+            'up': "http://noproblo.dayjo.org/ZeldaSounds/OOT/OOT_Notes_Ocarina_D2_short.wav",
+            'right': "http://noproblo.dayjo.org/ZeldaSounds/OOT/OOT_Notes_Ocarina_A_short.wav",
+            'down': "http://noproblo.dayjo.org/ZeldaSounds/OOT/OOT_Notes_Ocarina_F_short.wav",
+            'a': "http://noproblo.dayjo.org/ZeldaSounds/OOT/OOT_Notes_Ocarina_D_short.wav"
+        },
+        SONGS: {
+            'Zeldas Lullaby': 'https://www.zeldadungeon.net/Zelda05/Songs/Ocarina_-_Zelda\'s_Lullaby.mp3',
+            'Eponas Song': 'https://www.zeldadungeon.net/Zelda05/Songs/Ocarina_-_Epona\'s_Song.mp3',
+            'Sarias Song': 'https://www.zeldadungeon.net/Zelda05/Songs/Ocarina_-_Saria\'s_Song.mp3',
+            'Suns Song': 'https://www.zeldadungeon.net/Zelda05/Songs/Ocarina_-_Sun\'s_Song.mp3',
+            'Song Of Time': 'https://www.zeldadungeon.net/Zelda05/Songs/Ocarina_-_Song_of_Time.mp3',
+            'Song Of Storms': 'https://www.zeldadungeon.net/Zelda05/Songs/Ocarina_-_Song_of_Storms.mp3',
+            'Minuet Of Forest': 'https://www.zeldadungeon.net/Zelda05/Songs/Minuet_of_Forest.mp3',
+            'Bolero Of Fire': 'https://www.zeldadungeon.net/Zelda05/Songs/Bolero_of_Fire.mp3',
+            'Serenade Of Water': 'https://www.zeldadungeon.net/Zelda05/Songs/Serenade_of_Water.mp3',
+            'Requiem Of Spirit': 'https://www.zeldadungeon.net/Zelda05/Songs/Requiem_of_Spirit.mp3',
+            'Nocturne Of Shadow': 'https://www.zeldadungeon.net/Zelda05/Songs/Nocturne_of_Shadow.mp3',
+            'Prelude Of Light': 'https://www.zeldadungeon.net/Zelda05/Songs/Prelude_of_Light.mp3'
+        },
+        FX: {
+            'song_correct': "https://noproblo.dayjo.org/zeldasounds/OOT/OOT_Song_Correct.wav",
+            'menu_open': 'https://noproblo.dayjo.org/zeldasounds/OOT/OOT_PauseMenu_Open.wav',
+            'menu_close': 'https://noproblo.dayjo.org/zeldasounds/OOT/OOT_PauseMenu_Close.wav',
+            'startup': 'https://noproblo.dayjo.org/zeldasounds/OOT/OOT_PressStart.wav'
+        }
+    },
+    NOTE_VOLUME: 0.7,
+    SONG_VOLUME: 0.6,
+    FX_VOLUME: 0.5,
+    WIDGET_POSITION: 'Bottom Left',
+    WIDGET_SIZE: 40,
+    WIDGET_TOP_BUFFER: 20,
+    WIDGET_BOTTOM_BUFFER: 70,
+    WIDGET_LEFT_BUFFER: 20,
+    WIDGET_RIGHT_BUFFER: 20,
+    SONG_LIST_POSITION: 'Top Middle',
+    SONG_LIST_SIZE: 75,
+    SONG_LIST_TOP_BUFFER: 50,
+    SONG_LIST_BOTTOM_BUFFER: 20,
+    SONG_LIST_LEFT_BUFFER: 20,
+    SONG_LIST_RIGHT_BUFFER: 20
+};
+    </script>
+    <script>
+// ============================================
+// WebSocket Module for StreamerBot
+// ============================================
+let ws = null;
+let wsReconnectAttempts = 0;
+const MAX_RECONNECT_ATTEMPTS = 10;
+const WS_RECONNECT_DELAY = 3000;
+let messageCallback = null;
+
+function updateStatusContainer(status) {
+    const statusContainer = document.getElementById('statusContainer');
+    if (!statusContainer) return;
+    if (!CONFIG || !CONFIG.DEBUG_ENABLED) {
+        statusContainer.style.display = 'none';
+        statusContainer.style.visibility = 'hidden';
+        statusContainer.style.opacity = '0';
+        statusContainer.classList.add('hidden');
+        console.log('[STATUS]', status);
+        return;
+    }
+    statusContainer.textContent = status;
+    statusContainer.style.display = 'block';
+    statusContainer.style.visibility = 'visible';
+    statusContainer.classList.remove('connected', 'hidden');
+    if (status === 'CONNECTED') {
+        statusContainer.classList.add('connected');
+        setTimeout(() => {
+            statusContainer.classList.add('hidden');
+        }, 3000);
+    }
+    console.log('[STATUS]', status);
+}
+
+function logMessage(message, type = 'info') {
+    const typeUpper = type.toUpperCase();
+    console.log(`[LOG ${typeUpper}]`, message);
+    if (!CONFIG || !CONFIG.DEBUG_ENABLED) {
+        return;
+    }
+    const messageLog = document.getElementById('messageLog');
+    if (messageLog) {
+        const messageEl = document.createElement('div');
+        messageEl.className = `message ${type}`;
+        const timestamp = new Date().toLocaleTimeString();
+        messageEl.innerHTML = `<span class="timestamp">[${timestamp}]</span> ${message}`;
+        messageLog.insertBefore(messageEl, messageLog.firstChild);
+        messageLog.classList.add('visible');
+        messageLog.classList.remove('hidden');
+        while (messageLog.children.length > 50) {
+            messageLog.removeChild(messageLog.lastChild);
+        }
+        messageLog.scrollTop = 0;
+    }
+}
+
+function getWebSocketState(state) {
+    const states = { 0: 'CONNECTING', 1: 'OPEN', 2: 'CLOSING', 3: 'CLOSED' };
+    return states[state] || `UNKNOWN (${state})`;
+}
+
+function connectWebSocket(config, onMessage) {
+    messageCallback = onMessage;
+    if (!config.WS_ENABLED) {
+        console.log('[Overlay] WebSocket disabled');
+        updateStatusContainer('DISABLED');
+        return;
+    }
+    updateStatusContainer('CONNECTING');
+    if (ws && (ws.readyState === WebSocket.CONNECTING || ws.readyState === WebSocket.OPEN)) {
+        console.log('[WS] Already connected or connecting');
+        return;
+    }
+    try {
+        console.log(`[Overlay] 🔌 Attempting to connect to StreamerBot WebSocket: ${config.WS_URL}`);
+        ws = new WebSocket(config.WS_URL);
+        ws.addEventListener('open', (event) => {
+            console.log('[WS] Connected');
+            wsReconnectAttempts = 0;
+            updateStatusContainer('CONNECTED');
+            const subscribeRequest = {
+                request: "Subscribe",
+                id: config.OVERLAY_ID,
+                events: { General: ["Custom"] }
+            };
+            console.log('[WS] Sending Subscribe request:', JSON.stringify(subscribeRequest));
+            ws.send(JSON.stringify(subscribeRequest));
+            console.log('[WS] Subscribe sent - overlay will now receive messages from StreamerBot');
+        });
+        ws.addEventListener('message', (event) => {
+            console.log('[WS RAW]', event.data);
+            try {
+                const envelope = JSON.parse(event.data);
+                console.log('[WS ENVELOPE]', envelope);
+                if (envelope.status === 'ok') {
+                    console.log('[WS] ✅ Subscribe ACK received!');
+                    return;
+                }
+                if (envelope.status === 'error') {
+                    console.error('[WS] ❌ Subscribe error:', envelope);
+                    return;
+                }
+                const isCustomEvent = (envelope.event && typeof envelope.event === 'object' && 
+                                       envelope.event.type === 'Custom' && 
+                                       envelope.event.source === 'General') ||
+                                      (envelope.event === 'Custom');
+                if (isCustomEvent && envelope.data) {
+                    let payload;
+                    if (typeof envelope.data === 'string') {
+                        try {
+                            payload = JSON.parse(envelope.data);
+                        } catch (parseError) {
+                            console.error('[WS] Error parsing Custom event data string:', parseError);
+                            return;
+                        }
+                    } else {
+                        payload = envelope.data;
+                    }
+                    console.log('[WS PAYLOAD]', payload);
+                    logMessage(`📨 ${payload.type || 'Custom'}: ${payload.text || payload.message || JSON.stringify(payload).substring(0, 100)}`);
+                    if (messageCallback && typeof messageCallback === 'function') {
+                        messageCallback(payload);
+                    }
+                } else if (envelope.event === 'broadcast' && envelope.data) {
+                    let payload;
+                    if (typeof envelope.data === 'string') {
+                        payload = JSON.parse(envelope.data);
+                    } else {
+                        payload = envelope.data;
+                    }
+                    logMessage(`📨 Broadcast: ${payload.type || 'unknown'}`);
+                    if (messageCallback && typeof messageCallback === 'function') {
+                        messageCallback(payload);
+                    }
+                }
+            } catch (error) {
+                console.error('[WS] Error parsing message:', error);
+                console.error('[WS] Raw data:', event.data);
+            }
+        });
+        ws.addEventListener('error', (error) => {
+            console.error('[Overlay] WebSocket error:', error);
+            updateStatusContainer('ERROR');
+            logMessage(`❌ Error: ${error.message || 'Connection failed'}`);
+        });
+        ws.addEventListener('close', (event) => {
+            const wasClean = event.wasClean;
+            const code = event.code;
+            console.log(`[Overlay] WebSocket disconnected (code: ${code}, wasClean: ${wasClean})`);
+            updateStatusContainer('DISCONNECTED');
+            logMessage(`Disconnected (code: ${code})`);
+            if (!wasClean) {
+                console.log('[Overlay] Connection closed unexpectedly, attempting to reconnect...');
+                logMessage('Reconnecting...');
+                attemptReconnect(config);
+            }
+        });
+    } catch (error) {
+        console.error('[Overlay] Failed to create WebSocket connection:', error);
+        logMessage(`❌ Failed to create connection: ${error.message}`, 'error');
+        attemptReconnect(config);
+    }
+}
+
+function attemptReconnect(config) {
+    if (wsReconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
+        wsReconnectAttempts++;
+        const delay = Math.min(WS_RECONNECT_DELAY * wsReconnectAttempts, 30000);
+        console.log(`[Overlay] Attempting to reconnect in ${delay}ms... (Attempt ${wsReconnectAttempts}/${MAX_RECONNECT_ATTEMPTS})`);
+        logMessage(`Reconnecting in ${delay}ms... (Attempt ${wsReconnectAttempts}/${MAX_RECONNECT_ATTEMPTS})`, 'warning');
+        setTimeout(() => {
+            connectWebSocket(config, messageCallback);
+        }, delay);
+    } else {
+        console.warn('[Overlay] Max reconnection attempts reached.');
+        logMessage('❌ Max reconnection attempts reached. Please refresh the page.', 'error');
+    }
+}
+
+function isWebSocketConnected() {
+    return ws && ws.readyState === WebSocket.OPEN;
+}
+
+function sendToStreamerBot(data) {
+    const actionId = CONFIG ? CONFIG.RECEIVER_ACTION_ID : '';
+    if (!actionId || actionId.trim() === '') {
+        console.error('[WS] ❌ RECEIVER_ACTION_ID not configured');
+        return false;
+    }
+    return sendToStreamerBotViaDoAction(data, actionId);
+}
+
+function sendToStreamerBotViaDoAction(data, actionId) {
+    if (!actionId) {
+        console.error('[WS] ❌ DoAction requires an actionId');
+        return false;
+    }
+    try {
+        const wsUrl = CONFIG ? CONFIG.WS_URL : 'ws://127.0.0.1:8080';
+        const tempWs = new WebSocket(wsUrl);
+        tempWs.addEventListener('open', function(event) {
+            const doActionRequest = {
+                request: "DoAction",
+                id: "ocarina-doaction",
+                action: { id: actionId },
+                args: data
+            };
+            const messageJson = JSON.stringify(doActionRequest);
+            console.log('[WS] 📤 Sending via DoAction to action:', actionId);
+            tempWs.send(messageJson);
+            console.log('[WS] ✅ Message sent to StreamerBot!');
+            setTimeout(() => {
+                tempWs.close();
+            }, 200);
+        });
+        tempWs.addEventListener('error', function(error) {
+            console.error('[WS] ❌ Error with DoAction:', error);
+        });
+        return true;
+    } catch (error) {
+        console.error('[WS] ❌ Error creating DoAction connection:', error);
+        return false;
+    }
+}
+    </script>
+    <script>
+// ============================================
+// Main Script - Zelda Ocarina Widget
+// ============================================
+const staffLines = document.querySelectorAll('#staffLines .line');
+const imageContainer = document.getElementById('imageContainer');
+let canType = true;
+
+const images = {
+    'up': 'https://www.zeldadungeon.net/wiki/images/thumb/b/bd/Note_C-Up_-_OOT64.svg/1024px-Note_C-Up_-_OOT64.svg.png',
+    'down': 'https://www.zeldadungeon.net/wiki/images/thumb/f/f4/Note_C-Down_-_OOT64.svg/1024px-Note_C-Down_-_OOT64.svg.png',
+    'left': 'https://www.zeldadungeon.net/wiki/images/thumb/0/07/Note_C-Left_-_OOT64.svg/1024px-Note_C-Left_-_OOT64.svg.png',
+    'right': 'https://www.zeldadungeon.net/wiki/images/thumb/7/77/Note_C-Right_-_OOT64.svg/1024px-Note_C-Right_-_OOT64.svg.png',
+    'a': 'https://www.zeldadungeon.net/wiki/images/thumb/0/02/Note_A_-_OOT64.svg/1024px-Note_A_-_OOT64.svg.png'
+};
+
+const maxImages = 11;
+let imageCount = 0;
+const maxPatternLength = 8;
+let lastInputUsername = '';
+
+function addImage(command, username) {
+    lastInputUsername = username;
+    if (imageCount >= maxImages) {
+        const firstImage = imageContainer.firstElementChild;
+        if (firstImage) {
+            imageContainer.removeChild(firstImage);
+            imageCount--;
+        }
+    }
+    const imagePath = images[command];
+    if (!imagePath) {
+        console.log(`No image found for command: ${command}`);
+        return;
+    }
+    const image = document.createElement('img');
+    image.src = imagePath;
+    image.alt = `Image ${command}`;
+    image.classList.add('button');
+    imageContainer.appendChild(image);
+    imageCount++;
+    const lineHeight = staffLines[0].offsetHeight + parseFloat(getComputedStyle(staffLines[0]).marginBottom);
+    const staffLinesCenter = staffLines[0].offsetTop + staffLines[0].offsetHeight / 2;
+    let lineIndex = 0;
+    switch (command) {
+        case 'up': lineIndex = -0.5; break;
+        case 'down': lineIndex = 1.5; break;
+        case 'left': lineIndex = 0; break;
+        case 'right': lineIndex = 1; break;
+        case 'a': lineIndex = 2; break;
+    }
+    const positionTop = staffLinesCenter - ((staffLines.length / 2 - lineIndex - 1) * lineHeight);
+    image.style.top = `${positionTop}px`;
+    imageContainer.scrollLeft = imageContainer.scrollWidth;
+    listenToKeyStrokes(command);
+    console.log(`Played ${command} by ${username}`);
+    lastInputUsername = username;
+}
+
+const preloadedNoteSounds = { 'left': null, 'up': null, 'right': null, 'down': null, 'a': null };
+
+function resolveSoundPath(soundPath) {
+    if (!soundPath) return null;
+    if (soundPath.startsWith('http://') || soundPath.startsWith('https://')) {
+        return soundPath;
+    }
+    return `sounds/${soundPath}`;
+}
+
+function getNoteSoundUrls() {
+    if (CONFIG && CONFIG.SOUNDS && CONFIG.SOUNDS.NOTES) {
+        const configNotes = {};
+        for (const [key, path] of Object.entries(CONFIG.SOUNDS.NOTES)) {
+            configNotes[key] = resolveSoundPath(path);
+        }
+        return configNotes;
+    }
+    return {
+        'left': "http://noproblo.dayjo.org/ZeldaSounds/OOT/OOT_Notes_Ocarina_B_short.wav",
+        'up': "http://noproblo.dayjo.org/ZeldaSounds/OOT/OOT_Notes_Ocarina_D2_short.wav",
+        'right': "http://noproblo.dayjo.org/ZeldaSounds/OOT/OOT_Notes_Ocarina_A_short.wav",
+        'down': "http://noproblo.dayjo.org/ZeldaSounds/OOT/OOT_Notes_Ocarina_F_short.wav",
+        'a': "http://noproblo.dayjo.org/ZeldaSounds/OOT/OOT_Notes_Ocarina_D_short.wav"
+    };
+}
+
+function playAudioSafely(audioUrl, volume, onError) {
+    return new Promise((resolve, reject) => {
+        const audio = new Audio(audioUrl);
+        audio.volume = volume;
+        const playWhenReady = () => {
+            audio.removeEventListener('loadeddata', playWhenReady);
+            audio.removeEventListener('error', handleError);
+            audio.play().then(() => resolve(audio)).catch(err => {
+                if (onError) onError(err);
+                reject(err);
+            });
+        };
+        const handleError = (err) => {
+            audio.removeEventListener('loadeddata', playWhenReady);
+            audio.removeEventListener('error', handleError);
+            if (onError) onError(err);
+            reject(err);
+        };
+        audio.addEventListener('loadeddata', playWhenReady, { once: true });
+        audio.addEventListener('error', handleError, { once: true });
+        audio.load();
+    });
+}
+
+function listenToKeyStrokes(command) {
+    if (preloadedNoteSounds[command]) {
+        const audio = preloadedNoteSounds[command].cloneNode();
+        const noteVolume = CONFIG ? (CONFIG.NOTE_VOLUME !== undefined ? CONFIG.NOTE_VOLUME : 1.0) : 1.0;
+        audio.volume = noteVolume;
+        audio.play().catch(err => console.log(`[Audio] Could not play note ${command}:`, err));
+    } else {
+        const noteVolume = CONFIG ? (CONFIG.NOTE_VOLUME !== undefined ? CONFIG.NOTE_VOLUME : 1.0) : 1.0;
+        const sounds = getNoteSoundUrls();
+        const url = sounds[command];
+        if (url) {
+            playAudioSafely(url, noteVolume, (err) => {
+                console.log(`[Audio] Could not play note ${command}:`, err);
+            });
+        }
+    }
+}
+
+const songPatterns = {
+    'Zeldas Lullaby': ['left', 'up', 'right', 'left', 'up', 'right'],
+    'Eponas Song': ['up', 'left', 'right', 'up', 'left', 'right'],
+    'Sarias Song': ['down', 'right', 'left', 'down', 'right', 'left'],
+    'Suns Song': ['right', 'down', 'up', 'right', 'down', 'up'],
+    'Song Of Time': ['right', 'a', 'down', 'right', 'a', 'down'],
+    'Song Of Storms': ['a', 'down', 'up', 'a', 'down', 'up'],
+    'Minuet Of Forest': ['a', 'up', 'left', 'right', 'left', 'right'],
+    'Bolero Of Fire': ['down', 'a', 'down', 'a', 'right', 'down', 'right', 'down'],
+    'Serenade Of Water': ['a', 'down', 'right', 'right', 'left'],
+    'Requiem Of Spirit': ['a', 'down', 'a', 'right', 'down', 'a'],
+    'Nocturne Of Shadow': ['left', 'right', 'right', 'a', 'left', 'right', 'down'],
+    'Prelude Of Light': ['up', 'right', 'up', 'right', 'left', 'up']
+};
+
+let commandHistory = [];
+let matchedSongPattern = null;
+let glowInterval = null;
+let songListTimeout = null;
+
+function arraysMatch(arr1, arr2) {
+    const minLength = Math.min(arr1.length, arr2.length);
+    for (let i = 0; i < minLength; i++) {
+        if (arr1[i] !== arr2[i]) return false;
+    }
+    return true;
+}
+
+function checkSongPatterns() {
+    if (commandHistory.length === 0) return;
+    for (const songName in songPatterns) {
+        const songPattern = songPatterns[songName];
+        const patternLength = songPattern.length;
+        if (commandHistory.length >= patternLength) {
+            const subCommandHistory = commandHistory.slice(-patternLength);
+            if (arraysMatch(subCommandHistory, songPattern)) {
+                matchedSongPattern = [...songPattern];
+                const fxVolume = CONFIG ? (CONFIG.FX_VOLUME !== undefined ? CONFIG.FX_VOLUME : 1.0) : 1.0;
+                const songCorrectPath = CONFIG && CONFIG.SOUNDS && CONFIG.SOUNDS.FX && CONFIG.SOUNDS.FX.song_correct
+                    ? resolveSoundPath(CONFIG.SOUNDS.FX.song_correct)
+                    : "https://noproblo.dayjo.org/zeldasounds/OOT/OOT_Song_Correct.wav";
+                playAudioSafely(songCorrectPath, fxVolume, (err) => {
+                    console.log('[Audio] Could not play song correct sound:', err);
+                });
+                canType = false;
+                ShowHide('songInfo', true);
+                ShowHide('defaultText', false);
+                document.getElementById('username').textContent = `(${lastInputUsername})`;
+                document.getElementById('songName').textContent = songName;
+                startPersistentGlow(matchedSongPattern);
+                if (typeof sendToStreamerBot === 'function') {
+                    sendToStreamerBot({
+                        type: 'song_triggered',
+                        song: songName,
+                        username: lastInputUsername,
+                        timestamp: new Date().toISOString()
+                    });
+                }
+                setTimeout(() => {
+                    playLullaby(songName);
+                }, 250);
+                break;
+            }
+        }
+    }
+}
+
+function playLullaby(lullaby) {
+    let audioSrc = '';
+    if (CONFIG && CONFIG.SOUNDS && CONFIG.SOUNDS.SONGS && CONFIG.SOUNDS.SONGS[lullaby]) {
+        audioSrc = resolveSoundPath(CONFIG.SOUNDS.SONGS[lullaby]);
+    } else {
+        const songMap = {
+            'Zeldas Lullaby': 'https://www.zeldadungeon.net/Zelda05/Songs/Ocarina_-_Zelda\'s_Lullaby.mp3',
+            'Eponas Song': 'https://www.zeldadungeon.net/Zelda05/Songs/Ocarina_-_Epona\'s_Song.mp3',
+            'Sarias Song': 'https://www.zeldadungeon.net/Zelda05/Songs/Ocarina_-_Saria\'s_Song.mp3',
+            'Suns Song': 'https://www.zeldadungeon.net/Zelda05/Songs/Ocarina_-_Sun\'s_Song.mp3',
+            'Song Of Time': 'https://www.zeldadungeon.net/Zelda05/Songs/Ocarina_-_Song_of_Time.mp3',
+            'Song Of Storms': 'https://www.zeldadungeon.net/Zelda05/Songs/Ocarina_-_Song_of_Storms.mp3',
+            'Minuet Of Forest': 'https://www.zeldadungeon.net/Zelda05/Songs/Minuet_of_Forest.mp3',
+            'Bolero Of Fire': 'https://www.zeldadungeon.net/Zelda05/Songs/Bolero_of_Fire.mp3',
+            'Serenade Of Water': 'https://www.zeldadungeon.net/Zelda05/Songs/Serenade_of_Water.mp3',
+            'Requiem Of Spirit': 'https://www.zeldadungeon.net/Zelda05/Songs/Requiem_of_Spirit.mp3',
+            'Nocturne Of Shadow': 'https://www.zeldadungeon.net/Zelda05/Songs/Nocturne_of_Shadow.mp3',
+            'Prelude Of Light': 'https://www.zeldadungeon.net/Zelda05/Songs/Prelude_of_Light.mp3'
+        };
+        audioSrc = songMap[lullaby] || '';
+    }
+    if (!audioSrc) {
+        console.error('[Audio] No audio source found for song:', lullaby);
+        return;
+    }
+    const widget = document.querySelector('.widget');
+    if (widget) {
+        const glowColor = CONFIG.SONG_GLOW_COLORS && CONFIG.SONG_GLOW_COLORS[lullaby] 
+            ? CONFIG.SONG_GLOW_COLORS[lullaby] 
+            : 'rgba(100, 200, 255, 0.8)';
+        widget.style.setProperty('--song-glow-color', glowColor);
+        widget.classList.add('song-playing');
+    }
+    const songVolume = CONFIG ? (CONFIG.SONG_VOLUME !== undefined ? CONFIG.SONG_VOLUME : 1.0) : 1.0;
+    const songStartTime = performance.now();
+    playAudioSafely(audioSrc, songVolume, (err) => {
+        console.error('[Audio] Could not play song:', err);
+    }).then((audio) => {
+        audio.addEventListener('ended', () => {
+            const widget = document.querySelector('.widget');
+            if (widget) {
+                const animationDuration = 3000;
+                const songPlayTime = performance.now() - songStartTime;
+                const cyclesCompleted = Math.floor(songPlayTime / animationDuration);
+                const currentCyclePosition = (songPlayTime % animationDuration) / animationDuration;
+                let timeUntilLowest;
+                if (currentCyclePosition < 0.5) {
+                    timeUntilLowest = (1 - currentCyclePosition) * animationDuration;
+                } else {
+                    timeUntilLowest = (1 - currentCyclePosition) * animationDuration;
+                }
+                timeUntilLowest += 50;
+                setTimeout(() => {
+                    widget.classList.remove('song-playing');
+                    widget.classList.add('song-fading');
+                    setTimeout(() => {
+                        widget.classList.remove('song-fading');
+                        resetWidgetState();
+                    }, 1500);
+                }, timeUntilLowest);
+            } else {
+                setTimeout(resetWidgetState, 2000);
+            }
+        });
+    });
+    console.log(`Played ${lullaby} by ${lastInputUsername}`);
+}
+
+function startPersistentGlow(matchingPattern) {
+    if (glowInterval) {
+        clearInterval(glowInterval);
+    }
+    const staffNotes = Array.from(document.querySelectorAll('#imageContainer img'));
+    const patternLength = matchingPattern.length;
+    const lastNotes = staffNotes.slice(-patternLength);
+    const matchingIndices = new Set();
+    lastNotes.forEach((note, index) => {
+        const command = note.alt.split(' ')[1];
+        const patternCommand = matchingPattern[index];
+        if (command === patternCommand) {
+            const actualIndex = staffNotes.length - patternLength + index;
+            matchingIndices.add(actualIndex);
+        }
+    });
+    staffNotes.forEach((image, index) => {
+        const isMatchingNote = matchingIndices.has(index);
+        if (isMatchingNote) {
+            image.style.filter = 'brightness(200%) drop-shadow(0 0 15px rgba(255, 220, 50, 1)) drop-shadow(0 0 25px rgba(255, 240, 80, 0.8))';
+            image.style.opacity = '1';
+            image.style.transform = 'scale(1.1)';
+            image.style.transition = 'all 0.15s ease';
+        } else {
+            image.style.filter = 'brightness(40%)';
+            image.style.opacity = '0.5';
+            image.style.transform = 'scale(1)';
+            image.style.transition = 'all 0.15s ease';
+        }
+    });
+    let count = 0;
+    glowInterval = setInterval(() => {
+        count++;
+        staffNotes.forEach((image, index) => {
+            const isMatchingNote = matchingIndices.has(index);
+            if (isMatchingNote) {
+                if (count % 2 === 0) {
+                    image.style.filter = 'brightness(200%) drop-shadow(0 0 15px rgba(255, 220, 50, 1)) drop-shadow(0 0 25px rgba(255, 240, 80, 0.8))';
+                    image.style.transform = 'scale(1.1)';
+                } else {
+                    image.style.filter = 'brightness(150%) drop-shadow(0 0 10px rgba(255, 220, 50, 0.8)) drop-shadow(0 0 20px rgba(255, 240, 80, 0.6))';
+                    image.style.transform = 'scale(1.05)';
+                }
+            }
+        });
+    }, 300);
+}
+
+function stopPersistentGlow() {
+    if (glowInterval) {
+        clearInterval(glowInterval);
+        glowInterval = null;
+    }
+    const staffNotes = document.querySelectorAll('#imageContainer img');
+    staffNotes.forEach(image => {
+        image.style.filter = 'brightness(100%)';
+        image.style.opacity = '1';
+        image.style.transform = 'scale(1)';
+        image.style.transition = 'all 0.15s ease';
+    });
+}
+
+function showSongList(durationSeconds = null) {
+    const songListContainer = document.getElementById('songListContainer');
+    const songListContent = document.getElementById('songListContent');
+    if (!songListContainer || !songListContent) {
+        console.error('[SongList] Container not found');
+        return;
+    }
+    const isOpen = songListContainer.style.display === 'block' && 
+                   songListContainer.classList.contains('showing');
+    if (isOpen) {
+        hideSongList();
+        return;
+    }
+    const fxVolume = CONFIG ? (CONFIG.FX_VOLUME !== undefined ? CONFIG.FX_VOLUME : 1.0) : 1.0;
+    const menuOpenPath = CONFIG && CONFIG.SOUNDS && CONFIG.SOUNDS.FX && CONFIG.SOUNDS.FX.menu_open
+        ? resolveSoundPath(CONFIG.SOUNDS.FX.menu_open)
+        : 'https://noproblo.dayjo.org/zeldasounds/OOT/OOT_PauseMenu_Open.wav';
+    playAudioSafely(menuOpenPath, fxVolume, (err) => {
+        console.log('[SongList] Could not play open sound:', err);
+    });
+    songListContent.innerHTML = '';
+    const title = document.createElement('h2');
+    title.className = 'songListTitle';
+    title.textContent = 'Ocarina Songs';
+    songListContent.appendChild(title);
+    const songList = document.createElement('div');
+    songList.className = 'songList';
+    for (const songName in songPatterns) {
+        const songPattern = songPatterns[songName];
+        const songItem = document.createElement('div');
+        songItem.className = 'songItem';
+        const nameDiv = document.createElement('div');
+        nameDiv.className = 'songName';
+        nameDiv.textContent = songName;
+        songItem.appendChild(nameDiv);
+        const buttonSequence = document.createElement('div');
+        buttonSequence.className = 'buttonSequence';
+        songPattern.forEach((command, index) => {
+            const buttonContainer = document.createElement('div');
+            buttonContainer.className = 'buttonContainer';
+            const buttonImg = document.createElement('img');
+            buttonImg.src = images[command];
+            buttonImg.alt = command;
+            buttonImg.className = 'songButton';
+            buttonContainer.appendChild(buttonImg);
+            const buttonLabel = document.createElement('div');
+            buttonLabel.className = 'buttonLabel';
+            buttonLabel.textContent = command;
+            buttonContainer.appendChild(buttonLabel);
+            buttonSequence.appendChild(buttonContainer);
+        });
+        songItem.appendChild(buttonSequence);
+        songList.appendChild(songItem);
+    }
+    songListContent.appendChild(songList);
+    songListContainer.style.display = 'block';
+    songListContainer.style.visibility = 'visible';
+    requestAnimationFrame(() => {
+        songListContainer.classList.remove('hiding');
+        songListContainer.classList.add('showing');
+    });
+    const displayDuration = durationSeconds !== null ? durationSeconds : (CONFIG.SONG_LIST_DURATION || 15);
+    const durationMs = displayDuration * 1000;
+    songListTimeout = setTimeout(() => {
+        hideSongList();
+        songListTimeout = null;
+    }, durationMs);
+}
+
+function hideSongList() {
+    const songListContainer = document.getElementById('songListContainer');
+    if (songListContainer) {
+        if (songListTimeout) {
+            clearTimeout(songListTimeout);
+            songListTimeout = null;
+        }
+        const fxVolume = CONFIG ? (CONFIG.FX_VOLUME !== undefined ? CONFIG.FX_VOLUME : 1.0) : 1.0;
+        const menuClosePath = CONFIG && CONFIG.SOUNDS && CONFIG.SOUNDS.FX && CONFIG.SOUNDS.FX.menu_close
+            ? resolveSoundPath(CONFIG.SOUNDS.FX.menu_close)
+            : 'https://noproblo.dayjo.org/zeldasounds/OOT/OOT_PauseMenu_Close.wav';
+        playAudioSafely(menuClosePath, fxVolume, (err) => {
+            console.log('[SongList] Could not play close sound:', err);
+        });
+        songListContainer.classList.remove('showing');
+        songListContainer.classList.add('hiding');
+        setTimeout(() => {
+            songListContainer.style.display = 'none';
+            songListContainer.classList.remove('hiding');
+        }, 300);
+    }
+}
+
+function processCommand(command, username = 'Debug') {
+    if (!canType) {
+        console.log('[Handler] Widget is busy, ignoring command');
+        if (typeof sendToStreamerBot === 'function') {
+            sendToStreamerBot({
+                type: 'note_missed',
+                command: command,
+                username: username,
+                reason: 'song_playing',
+                timestamp: new Date().toISOString()
+            });
+        }
+        return;
+    }
+    if (['up', 'down', 'left', 'right', 'a'].includes(command)) {
+        lastInputUsername = username;
+        addImage(command, username);
+        if (typeof sendToStreamerBot === 'function') {
+            sendToStreamerBot({
+                type: 'note_played',
+                command: command,
+                username: username,
+                timestamp: new Date().toISOString()
+            });
+        }
+        commandHistory.push(command);
+        if (commandHistory.length > maxPatternLength) {
+            commandHistory.shift();
+        }
+        checkSongPatterns();
+    } else {
+        console.log(`[Handler] Invalid command: ${command}`);
+    }
+}
+
+function handleWebSocketMessage(payload) {
+    console.log('[Handler] Received message:', payload);
+    let message = '';
+    let username = '';
+    if (payload.text) {
+        message = payload.text.toLowerCase().trim();
+    } else if (payload.message) {
+        message = payload.message.toLowerCase().trim();
+    } else if (payload.command) {
+        message = payload.command.toLowerCase().trim();
+    } else if (typeof payload === 'string') {
+        message = payload.toLowerCase().trim();
+    }
+    if (payload.username) {
+        username = payload.username;
+    } else if (payload.user) {
+        username = payload.user;
+    } else if (payload.nick) {
+        username = payload.nick;
+    } else if (payload.name) {
+        username = payload.name;
+    } else {
+        username = 'Unknown';
+    }
+    if (message === 'songs' || message.startsWith('songs:')) {
+        let durationSeconds = null;
+        if (message.startsWith('songs:')) {
+            const durationStr = message.split(':')[1];
+            const parsedDuration = parseFloat(durationStr);
+            if (!isNaN(parsedDuration) && parsedDuration > 0) {
+                durationSeconds = parsedDuration;
+            }
+        }
+        if (durationSeconds === null && payload.duration !== undefined) {
+            const parsedDuration = parseFloat(payload.duration);
+            if (!isNaN(parsedDuration) && parsedDuration > 0) {
+                durationSeconds = parsedDuration;
+            }
+        }
+        showSongList(durationSeconds);
+        return;
+    }
+    processCommand(message, username);
+}
+
+function setupKeyboardInput() {
+    if (!CONFIG.DEBUG_ENABLED) {
+        console.log('[Keyboard] Debug mode disabled, keyboard input not available');
+        return;
+    }
+    console.log('[Keyboard] Debug mode enabled - Keyboard input active!');
+    const keyMap = {
+        'ArrowUp': 'up',
+        'ArrowDown': 'down',
+        'ArrowLeft': 'left',
+        'ArrowRight': 'right',
+        'KeyA': 'a',
+        'a': 'a',
+        'A': 'a'
+    };
+    const pressedKeys = new Set();
+    document.addEventListener('keydown', (event) => {
+        if (!CONFIG.DEBUG_ENABLED) {
+            return;
+        }
+        const key = event.key;
+        const code = event.code;
+        let command = keyMap[code] || keyMap[key];
+        if ((key === 'l' || key === 'L' || code === 'KeyL') && !pressedKeys.has('toggleLink')) {
+            event.preventDefault();
+            pressedKeys.add('toggleLink');
+            toggleLinkVisibility();
+            return;
+        }
+        if ((key === 's' || key === 'S' || code === 'KeyS') && !pressedKeys.has('showSongs')) {
+            event.preventDefault();
+            pressedKeys.add('showSongs');
+            showSongList();
+            return;
+        }
+        if (command && !pressedKeys.has(command)) {
+            event.preventDefault();
+            pressedKeys.add(command);
+            console.log(`[Keyboard] Key pressed: ${key} (${code}) -> Command: ${command}`);
+            processCommand(command, 'Keyboard');
+        }
+    });
+    document.addEventListener('keyup', (event) => {
+        const key = event.key;
+        const code = event.code;
+        const command = keyMap[code] || keyMap[key];
+        if (command) {
+            pressedKeys.delete(command);
+        }
+        if (key === 'l' || key === 'L' || code === 'KeyL') {
+            pressedKeys.delete('toggleLink');
+        }
+        if (key === 's' || key === 'S' || code === 'KeyS') {
+            pressedKeys.delete('showSongs');
+        }
+    });
+    if (document.body) {
+        document.body.setAttribute('tabindex', '0');
+        document.body.style.outline = 'none';
+    }
+}
+
+function toggleLinkVisibility() {
+    const linkContainer = document.getElementById('linkContainer');
+    if (linkContainer) {
+        const isVisible = linkContainer.style.display !== 'none';
+        linkContainer.style.display = isVisible ? 'none' : 'block';
+        console.log(`[Link] ${isVisible ? 'Hidden' : 'Shown'}`);
+    }
+}
+
+function setLinkVisibility(show) {
+    const linkContainer = document.getElementById('linkContainer');
+    if (linkContainer) {
+        linkContainer.style.display = show ? 'block' : 'none';
+    }
+}
+
+function getPositionStyles(position, topBuffer, rightBuffer, bottomBuffer, leftBuffer) {
+    const positions = {
+        'Top Left': { top: `${topBuffer}px`, left: `${leftBuffer}px`, right: 'auto', bottom: 'auto', transform: 'none' },
+        'Top Middle': { top: `${topBuffer}px`, left: '50%', right: 'auto', bottom: 'auto', transform: 'translateX(-50%)' },
+        'Top Right': { top: `${topBuffer}px`, left: 'auto', right: `${rightBuffer}px`, bottom: 'auto', transform: 'none' },
+        'Middle Right': { top: '50%', left: 'auto', right: `${rightBuffer}px`, bottom: 'auto', transform: 'translateY(-50%)' },
+        'Bottom Right': { top: 'auto', left: 'auto', right: `${rightBuffer}px`, bottom: `${bottomBuffer}px`, transform: 'none' },
+        'Bottom Middle': { top: 'auto', left: '50%', right: 'auto', bottom: `${bottomBuffer}px`, transform: 'translateX(-50%)' },
+        'Bottom Left': { top: 'auto', left: `${leftBuffer}px`, right: 'auto', bottom: `${bottomBuffer}px`, transform: 'none' },
+        'Middle Left': { top: '50%', left: `${leftBuffer}px`, right: 'auto', bottom: 'auto', transform: 'translateY(-50%)' },
+        'Centre': { top: '50%', left: '50%', right: 'auto', bottom: 'auto', transform: 'translate(-50%, -50%)' }
+    };
+    return positions[position] || positions['Bottom Middle'];
+}
+
+function applyWidgetPosition() {
+    const widget = document.querySelector('.widget');
+    if (!widget) return;
+    const position = CONFIG.WIDGET_POSITION || 'Bottom Middle';
+    const size = CONFIG.WIDGET_SIZE || 100;
+    const canvasWidth = 1920;
+    const canvasHeight = 1080;
+    const baseWidth = 1200;
+    const baseHeight = 300;
+    const topBuffer = CONFIG.WIDGET_TOP_BUFFER || 20;
+    const rightBuffer = CONFIG.WIDGET_RIGHT_BUFFER || 20;
+    const bottomBuffer = CONFIG.WIDGET_BOTTOM_BUFFER || 20;
+    const leftBuffer = CONFIG.WIDGET_LEFT_BUFFER || 20;
+    widget.style.width = `${baseWidth}px`;
+    widget.style.height = `${baseHeight}px`;
+    const scale = (size / 100) * (canvasWidth / baseWidth);
+    const scaledWidth = baseWidth * scale;
+    const scaledHeight = baseHeight * scale;
+    const maxWidth = canvasWidth - (leftBuffer + rightBuffer);
+    const maxHeight = canvasHeight - (topBuffer + bottomBuffer);
+    let finalScale = scale;
+    if (scaledWidth > maxWidth) {
+        finalScale = maxWidth / baseWidth;
+    }
+    if (scaledHeight > maxHeight) {
+        finalScale = Math.min(finalScale, maxHeight / baseHeight);
+    }
+    const styles = getPositionStyles(position, topBuffer, rightBuffer, bottomBuffer, leftBuffer);
+    Object.keys(styles).forEach(key => {
+        if (key !== 'transform') {
+            widget.style[key] = styles[key];
+        }
+    });
+    let transformOrigin = 'center center';
+    if (position === 'Bottom Left') {
+        transformOrigin = 'left bottom';
+    } else if (position === 'Bottom Right') {
+        transformOrigin = 'right bottom';
+    } else if (position === 'Bottom Middle') {
+        transformOrigin = 'center bottom';
+    } else if (position === 'Top Left') {
+        transformOrigin = 'left top';
+    } else if (position === 'Top Right') {
+        transformOrigin = 'right top';
+    } else if (position === 'Top Middle') {
+        transformOrigin = 'center top';
+    } else if (position === 'Middle Left') {
+        transformOrigin = 'left center';
+    } else if (position === 'Middle Right') {
+        transformOrigin = 'right center';
+    } else if (position === 'Centre') {
+        transformOrigin = 'center center';
+    }
+    widget.style.transformOrigin = transformOrigin;
+    let transformValue = '';
+    if (styles.transform && styles.transform !== 'none') {
+        transformValue = styles.transform;
+    }
+    if (transformValue) {
+        transformValue = `${transformValue} scale(${finalScale})`;
+    } else {
+        transformValue = `scale(${finalScale})`;
+    }
+    widget.style.transform = transformValue;
+}
+
+function applySongListPosition() {
+    const songListContainer = document.getElementById('songListContainer');
+    if (!songListContainer) return;
+    const position = CONFIG.SONG_LIST_POSITION || 'Top Middle';
+    const size = CONFIG.SONG_LIST_SIZE || 100;
+    const canvasWidth = 1920;
+    const canvasHeight = 1080;
+    const topBuffer = CONFIG.SONG_LIST_TOP_BUFFER || 20;
+    const rightBuffer = CONFIG.SONG_LIST_RIGHT_BUFFER || 20;
+    const bottomBuffer = CONFIG.SONG_LIST_BOTTOM_BUFFER || 20;
+    const leftBuffer = CONFIG.SONG_LIST_LEFT_BUFFER || 20;
+    const baseWidthPercent = 75;
+    const baseMaxWidth = 1200;
+    const baseMaxHeight = canvasHeight * 0.6 + 15;
+    songListContainer.style.width = `${baseWidthPercent}%`;
+    songListContainer.style.maxWidth = `${baseMaxWidth}px`;
+    songListContainer.style.maxHeight = `${baseMaxHeight}px`;
+    const scale = (size / 100) * (canvasWidth / baseMaxWidth);
+    const scaledMaxWidth = baseMaxWidth * scale;
+    const scaledMaxHeight = baseMaxHeight * scale;
+    const maxAllowedWidth = canvasWidth - (leftBuffer + rightBuffer);
+    const maxAllowedHeight = canvasHeight - (topBuffer + bottomBuffer);
+    let finalScale = scale;
+    if (scaledMaxWidth > maxAllowedWidth) {
+        finalScale = maxAllowedWidth / baseMaxWidth;
+    }
+    if (scaledMaxHeight > maxAllowedHeight) {
+        finalScale = Math.min(finalScale, maxAllowedHeight / baseMaxHeight);
+    }
+    const styles = getPositionStyles(position, topBuffer, rightBuffer, bottomBuffer, leftBuffer);
+    Object.keys(styles).forEach(key => {
+        if (key !== 'transform') {
+            songListContainer.style[key] = styles[key];
+        }
+    });
+    let transformOrigin = 'center center';
+    if (position === 'Bottom Left') {
+        transformOrigin = 'left bottom';
+    } else if (position === 'Bottom Right') {
+        transformOrigin = 'right bottom';
+    } else if (position === 'Bottom Middle') {
+        transformOrigin = 'center bottom';
+    } else if (position === 'Top Left') {
+        transformOrigin = 'left top';
+    } else if (position === 'Top Right') {
+        transformOrigin = 'right top';
+    } else if (position === 'Top Middle') {
+        transformOrigin = 'center top';
+    } else if (position === 'Middle Left') {
+        transformOrigin = 'left center';
+    } else if (position === 'Middle Right') {
+        transformOrigin = 'right center';
+    } else if (position === 'Centre') {
+        transformOrigin = 'center center';
+    }
+    songListContainer.style.transformOrigin = transformOrigin;
+    let transformValue = '';
+    if (styles.transform && styles.transform !== 'none') {
+        transformValue = styles.transform;
+    }
+    if (transformValue) {
+        transformValue = `${transformValue} scale(${finalScale})`;
+    } else {
+        transformValue = `scale(${finalScale})`;
+    }
+    songListContainer.style.transform = transformValue;
+}
+
+function preloadNoteSounds() {
+    const noteVolume = CONFIG ? (CONFIG.NOTE_VOLUME !== undefined ? CONFIG.NOTE_VOLUME : 1.0) : 1.0;
+    console.log('[Audio] Preloading note sounds...');
+    const sounds = getNoteSoundUrls();
+    for (const [command, url] of Object.entries(sounds)) {
+        if (!url) {
+            console.warn(`[Audio] No sound path configured for note: ${command}`);
+            continue;
+        }
+        const audio = new Audio(url);
+        audio.volume = noteVolume;
+        audio.preload = 'auto';
+        audio.addEventListener('loadeddata', () => {
+            preloadedNoteSounds[command] = audio;
+            console.log(`[Audio] Preloaded: ${command} from ${url}`);
+        }, { once: true });
+        audio.addEventListener('error', (err) => {
+            console.warn(`[Audio] Failed to preload ${command} from ${url}:`, err);
+        }, { once: true });
+        audio.load();
+    }
+}
+
+function getFXVolume() {
+    const baseFXVolume = CONFIG ? (CONFIG.FX_VOLUME !== undefined ? CONFIG.FX_VOLUME : 1.0) : 1.0;
+    const widget = document.querySelector('.widget');
+    const isSongPlaying = widget && widget.classList.contains('song-playing');
+    if (isSongPlaying) {
+        return baseFXVolume * 0.5;
+    }
+    return baseFXVolume;
+}
+
+function ShowHide(ID, show) {
+    const element = document.getElementById(ID);
+    element.style.display = show ? "block" : "none";
+}
+
+function resetWidgetState() {
+    stopPersistentGlow();
+    const widget = document.querySelector('.widget');
+    if (widget) {
+        widget.classList.remove('song-playing');
+    }
+    commandHistory = [];
+    matchedSongPattern = null;
+    lastInputUsername = '';
+    ShowHide('songInfo', false);
+    ShowHide('defaultText', true);
+    imageContainer.innerHTML = '';
+    imageCount = 0;
+    canType = true;
+}
+
+function init() {
+    console.log('[Init] Zelda Ocarina Widget starting...');
+    applyWidgetPosition();
+    applySongListPosition();
+    if (CONFIG.SHOW_LINK === true) {
+        setLinkVisibility(true);
+    } else {
+        setLinkVisibility(false);
+    }
+    const messageLog = document.getElementById('messageLog');
+    if (messageLog) {
+        if (CONFIG.DEBUG_ENABLED) {
+            messageLog.classList.add('visible');
+            messageLog.classList.remove('hidden');
+        } else {
+            messageLog.classList.add('hidden');
+            messageLog.classList.remove('visible');
+        }
+    }
+    if (typeof logMessage === 'function') {
+        logMessage('Zelda Ocarina Widget initialized', 'success');
+    }
+    preloadNoteSounds();
+    setupKeyboardInput();
+    if (typeof connectWebSocket === 'function') {
+        connectWebSocket({
+            WS_ENABLED: CONFIG.WS_ENABLED,
+            WS_URL: CONFIG.WS_URL,
+            OVERLAY_ID: CONFIG.OVERLAY_ID
+        }, handleWebSocketMessage);
+    } else {
+        console.error('[Init] WebSocket module not loaded!');
+    }
+}
+
+function startWidget() {
+    setTimeout(() => {
+        const widget = document.querySelector('.widget');
+        if (widget) {
+            const fxVolume = getFXVolume();
+            const startupPath = CONFIG && CONFIG.SOUNDS && CONFIG.SOUNDS.FX && CONFIG.SOUNDS.FX.startup
+                ? resolveSoundPath(CONFIG.SOUNDS.FX.startup)
+                : 'https://noproblo.dayjo.org/zeldasounds/OOT/OOT_PressStart.wav';
+            playAudioSafely(startupPath, fxVolume, (err) => {
+                console.log('[Init] Could not play startup sound:', err);
+            });
+            requestAnimationFrame(() => {
+                widget.classList.add('fade-in');
+            });
+        }
+    }, 1000);
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+        init();
+        startWidget();
+    });
+} else {
+    init();
+    startWidget();
+}
+    </script>
+</body>
+</html>
