@@ -1,0 +1,57 @@
+---
+layout: default
+title: "Home"
+description: "Custom Streamer.bot extensions and overlays for Twitch"
+---
+
+<section class="hero">
+  <h1>Welcome to DexNeXuS Extensions</h1>
+  <p>Custom-built Streamer.bot extensions, OBS overlays, and utilities to enhance your Twitch stream.</p>
+</section>
+
+<section class="overlays-section">
+  <h2 style="text-align: center; margin-bottom: 2rem; font-size: 2rem;">Available Overlays</h2>
+  
+  <div class="cards-grid">
+    <div class="card">
+      <h3>Sample Timer Overlay</h3>
+      <p>A simple timer overlay that connects to Streamer.bot and displays custom timers.</p>
+      <a href="{{ site.baseurl }}/overlays/sample-timer" class="card-link" target="_blank">View Overlay →</a>
+    </div>
+    
+    <div class="card">
+      <h3>Dynamic Timers</h3>
+      <p>Advanced multi-timer overlay with progress bars, pause/resume, and custom styling options.</p>
+      <a href="{{ site.baseurl }}/overlays/dynamic-timers" class="card-link" target="_blank">View Overlay →</a>
+    </div>
+    
+    <div class="card">
+      <h3>Ad Notification</h3>
+      <p>Get notified when ads are running or scheduled on Twitch. Shows countdown and ad status.</p>
+      <a href="{{ site.baseurl }}/overlays/ad-notification" class="card-link" target="_blank">View Overlay →</a>
+    </div>
+    
+    <!-- Add more overlay cards here as you create them -->
+  </div>
+</section>
+
+<section class="info-section" style="margin-top: 4rem; padding: 2rem; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border);">
+  <h2 style="margin-bottom: 1rem;">How to Use</h2>
+  <ol style="padding-left: 1.5rem; color: var(--text-muted);">
+    <li style="margin-bottom: 0.5rem;">Make sure Streamer.bot is running with the WebSocket server enabled (default: 127.0.0.1:8080)</li>
+    <li style="margin-bottom: 0.5rem;">Open OBS and add a Browser Source</li>
+    <li style="margin-bottom: 0.5rem;">Enter the overlay URL (e.g., <code>{{ site.url }}{{ site.baseurl }}/overlays/sample-timer</code>)</li>
+    <li style="margin-bottom: 0.5rem;">If your Streamer.bot uses a different address/port/password, add them as URL parameters: <code>?address=127.0.0.1&port=8080&password=yourpassword</code></li>
+    <li style="margin-bottom: 0.5rem;">Set the Browser Source width to 1920 and height to 1080 (or your stream resolution)</li>
+  </ol>
+</section>
+
+<section class="info-section" style="margin-top: 2rem; padding: 2rem; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border);">
+  <h2 style="margin-bottom: 1rem;">How It Works</h2>
+  <p style="color: var(--text-muted); line-height: 1.8;">
+    These overlays are standalone HTML files that connect to Streamer.bot's WebSocket server. When you add them as Browser Sources in OBS, they establish a WebSocket connection to your local Streamer.bot instance and listen for events. The overlays can display timers, alerts, notifications, and more based on Streamer.bot actions and events.
+  </p>
+  <p style="color: var(--text-muted); line-height: 1.8; margin-top: 1rem;">
+    Each overlay is self-contained and uses the <code>@streamerbot/client</code> JavaScript library to communicate with Streamer.bot. You can customize them by modifying the HTML files or adding URL parameters for configuration.
+  </p>
+</section>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Sample Timer Overlay – DexNeXuS</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <script type="text/javascript" src="https://unpkg.com/@streamerbot/client/dist/streamerbot-client.js"></script>
+  <style>
+    :root {
+      --glass: rgba(255, 255, 255, 0.10);
+      --glass-border: rgba(255, 255, 255, 0.25);
+      --box-radius: 16px;
+      --shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+      --timer-font-size: 48px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: transparent;
+      font-family: 'Poppins', sans-serif;
+      color: #fff;
+    }
+
+    .timer-wrapper {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 12px;
+      z-index: 1000;
+    }
+
+    .timer-container {
+      width: auto;
+      min-width: 300px;
+      max-width: 400px;
+      border-radius: var(--box-radius);
+      padding: 16px 20px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(14px) saturate(120%);
+      -webkit-backdrop-filter: blur(14px) saturate(120%);
+      box-shadow: var(--shadow);
+      animation: popIn 300ms ease-out 1;
+    }
+
+    @keyframes popIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px) scale(0.98);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .timer-name {
+      text-align: center;
+      text-shadow: 2px 1px 3px rgba(0, 0, 0, 0.81);
+      margin-bottom: 8px;
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.95;
+    }
+
+    .countdown {
+      text-align: center;
+      font-weight: 700;
+      text-shadow: 2px 1px 3px rgba(0, 0, 0, 0.81);
+      letter-spacing: 1px;
+      font-size: var(--timer-font-size);
+      line-height: 1;
+    }
+
+    .status {
+      text-align: center;
+      margin-top: 8px;
+      font-size: 12px;
+      opacity: 0.7;
+    }
+
+    .status.connected {
+      color: #4ade80;
+    }
+
+    .status.disconnected {
+      color: #ef4444;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="timer-wrapper" id="timer-wrapper">
+    <div class="timer-container" id="timer-container" style="display: none;">
+      <div class="timer-name" id="timer-name">Sample Timer</div>
+      <div class="countdown" id="countdown">00:00:00</div>
+      <div class="status disconnected" id="status">Disconnected</div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    function parseQueryParam(searchParams, name, defaultValue) {
+      const lowerMap = {};
+      for (const [key, val] of searchParams.entries()) {
+        lowerMap[key.toLowerCase()] = val;
+      }
+      return lowerMap[name.toLowerCase()] || defaultValue;
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const port = parseQueryParam(params, "port", "8080");
+    const address = parseQueryParam(params, "address", "127.0.0.1");
+    const password = parseQueryParam(params, "password", "");
+
+    const timerContainer = document.getElementById('timer-container');
+    const timerName = document.getElementById('timer-name');
+    const countdown = document.getElementById('countdown');
+    const status = document.getElementById('status');
+
+    function secondsToHms(d) {
+      d = Number(d);
+      const h = Math.floor(d / 3600);
+      const m = Math.floor(d % 3600 / 60);
+      const s = Math.floor(d % 60);
+      const hDisplay = String(h).padStart(2, '0') + ':';
+      const mDisplay = String(m).padStart(2, '0') + ':';
+      const sDisplay = String(s).padStart(2, '0');
+      return hDisplay + mDisplay + sDisplay;
+    }
+
+    let timerInterval = null;
+    let remainingSeconds = 0;
+
+    function updateTimer() {
+      if (remainingSeconds <= 0) {
+        countdown.textContent = "00:00:00";
+        countdown.style.color = "#ef4444";
+        clearInterval(timerInterval);
+        return;
+      }
+      countdown.textContent = secondsToHms(remainingSeconds);
+      remainingSeconds--;
+    }
+
+    function startTimer(seconds) {
+      remainingSeconds = seconds;
+      clearInterval(timerInterval);
+      countdown.style.color = "#fff";
+      timerContainer.style.display = "block";
+      updateTimer();
+      timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    const client = new StreamerbotClient({
+      host: address,
+      port: parseInt(port),
+      endpoint: "/",
+      password: password || undefined,
+      subscribe: 'General.Custom',
+      onConnect: () => {
+        status.textContent = "Connected";
+        status.className = "status connected";
+        console.log("Connected to Streamer.bot");
+      },
+      onDisconnect: () => {
+        status.textContent = "Disconnected";
+        status.className = "status disconnected";
+        console.log("Disconnected from Streamer.bot");
+      },
+      onError: (err) => {
+        status.textContent = "Error";
+        status.className = "status disconnected";
+        console.error("Streamer.bot error:", err);
+      }
+    });
+
+    // Listen for custom events from Streamer.bot
+    client.on('General.Custom', (payload) => {
+      try {
+        if (payload && payload.data) {
+          const { timerRequest, timerDetails } = payload.data;
+          if (timerRequest === 'start' && timerDetails && timerDetails.timerValue) {
+            timerName.textContent = timerDetails.timerName || "Sample Timer";
+            startTimer(timerDetails.timerValue);
+          }
+        }
+      } catch (error) {
+        console.error("Error processing timer event:", error);
+      }
+    });
+  </script>
+</body>
+
+</html>
