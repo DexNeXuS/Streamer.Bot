@@ -1,7 +1,7 @@
 title: "DexNeXuS Streamer.bot Extensions"
 description: "Custom Streamer.bot Extensions, Twitch Overlays & OBS Widgets"
-url: "https://yourusername.github.io"  # Change this to your GitHub Pages URL
-baseurl: "/DexNeXuS-main"  # Change this if your repo name is different, or leave empty if using username.github.io
+url: "https://dexnexus.github.io"
+baseurl: "/Streamer.Bot"
 author: "DexNeXuS"
 plugins:
   - jekyll-sitemap
